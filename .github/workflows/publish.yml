@@ -4,12 +4,11 @@
 name: Publish Packages
 
 on:
-  pull_request:
-    types: [closed]
-    branches: ["main"]
+  release:
+    types: [published]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +16,6 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - run: npx lerna version
       - run: npx lerna build
       - run: npx lerna package from-package
         env:
