@@ -4,8 +4,9 @@
 name: Publish Packages
 
 on:
-  release:
-    types: [created]
+  pull_request:
+    types: [closed]
+    branches: ["main"]
 
 jobs:
   build:
