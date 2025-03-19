@@ -1,0 +1,23 @@
+# This workflow increments package versions, builds all packages with the new versions, and then publishes
+# the up to date packages 
+
+name: Publish Packages
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npx lerna version
+      - run: npx lerna build
+      - run: npx lerna package from-package
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
